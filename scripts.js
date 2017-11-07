@@ -22,7 +22,11 @@ function additem(){
     }
 }
 
+//this will delete a list item
 function deleteitem(element){
     $(element).parent().remove();
 }
 
+function showlists(){
+    ;
+}
