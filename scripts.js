@@ -1,32 +1,70 @@
 
-//there are two ways to add a new task, and both are defined here, clicking the button or pressing enter
-$( function(){
-    $("#addbtn").click(function(){
-        additem();
+//these make the add list and task buttons work
+$(function taskbutton(){
+    $("#addTask").click(function(){
+        addTask();
     });
-    $("#addinput").keyup(function(event){
+    $("#taskInput").keyup(function(event){
         if(event.keyCode === 13){
-            additem();
+            addTask();
         }
     });
 });
 
-//this is what happens once an event happens to call the additem function
-function additem(){
-    let thelabel = $("#addinput").val();
+$(function listbutton(){
+    $("#addList").click(function list(){
+        addList();
+    });
+    $("#listInput").keyup(function listkeyup(event){
+        if(event.keyCode === 13){
+            addList();
+        }
+    });
+});
+
+//this is how the actual tasks and lists are added
+function addTask(){
+    let thelabel = $("#taskInput").val();
 
     if(thelabel !== "") {
-        let inputdiv = "<div><span>"+ thelabel + " " + "</span><button onclick='deleteitem(this)'>DELETE</button></div>";
+        let inputdiv = "<div><span class='bold'>"+ thelabel + " " + "</span><button onclick='deleteitem(this)'>DELETE</button></div>";
         $(".todocontainer").append(inputdiv);
-        $("#addinput").val("");
+        $("#taskInput").val("");
     }
 }
 
-//this will delete a list item
+//I need my addlist function to create a new div that will, when clicked on, display the tasks
+//to be created
+function addList() {
+    let thelabel = $("#listInput").val();
+    /*let x=0;
+    let listnumber = ++x;
+    let div = document.createElement("div " + "class='list" + listnumber + "'");*/
+
+    if (thelabel !== "") {
+        let inputdiv = "<div><span class='bold' onclick='showtasks()'>" + thelabel + " " + "</span><button onclick='deleteitem(this)'>DELETE</button></div>";
+        let listnum =
+        $(".listcontainer").append(inputdiv);
+        $("#listInput").val("");
+
+    }
+}
+
+//this will delete a list item or task
 function deleteitem(element){
     $(element).parent().remove();
 }
 
 function showlists(){
-    ;
+    let x = document.getElementById("listsection");
+    if (x.style.display === "none") {
+        x.style.display = "block";
+    } else {
+        x.style.display = "none";
+    }
+}
+    //show everything on click, hide everything onclick
+
+function showtasks(){
+    $("").append();
 }
