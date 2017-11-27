@@ -27,7 +27,7 @@ function addTask(){
     let thelabel = $("#taskInput").val();
 
     if(thelabel !== "") {
-        let inputdiv = "<div><span class='bold'>"+ thelabel + " " + "</span><button onclick='deleteitem(this)'>DELETE</button></div>";
+        let inputdiv = "<div class='taskdiv'><span class='bold'>"+ "<i class=\"fa fa-square-o\" aria-hidden=\"true\" onclick='markcomplete()'></i> " + thelabel + " " + "</span><button onclick='deleteitem(this)'>DELETE</button></div>";
         $(".todocontainer").append(inputdiv);
         $("#taskInput").val("");
     }
@@ -37,9 +37,11 @@ function addTask(){
 //to be created
 function addList() {
     let thelabel = $("#listInput").val();
-    /*let x=0;
+    /*
+    let x=1;
     let listnumber = ++x;
-    let div = document.createElement("div " + "class='list" + listnumber + "'");*/
+    let div = document.createElement("div " + "class='list" + listnumber + "'");
+    */
 
     if (thelabel !== "") {
         let inputdiv = "<div><span class='bold' onclick='showtasks()'>" + thelabel + " " + "</span><button onclick='deleteitem(this)'>DELETE</button></div>";
@@ -63,8 +65,14 @@ function showlists(){
         x.style.display = "none";
     }
 }
-    //show everything on click, hide everything onclick
+//shows lists on click, hides lists onclick
 
-function showtasks(){
-    $("").append();
+function markcomplete(){
+    //this needs to select the task item and change its style to "text-decoration: line-through"
+    //I want to make this toggle as well
+    //console.log("it works");
+}
+
+function clear(){
+    //select all elements with style "text-decoration: line-through" and delete them
 }
