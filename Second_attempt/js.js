@@ -1,9 +1,4 @@
 let lists = [];
-let lLength = lists.length;
-let task = [];
-let listDisplay = "";
-
-document.getElementById("listContainer").innerHTML = listDisplay;
 
 $(function listButton(){
     $("#addList").click(function list(){
@@ -17,27 +12,42 @@ $(function listButton(){
 });
 
 
-function newList(listInput){
-    lists.push(listInput);
-    listInput = [];
-    //maybe make each list an object with task numbers and editable values(the task). Task number should be array length
-    //listArray = listInput;
+function newList(listName){
+    let newList = {
+        name: listName,
+        tasks: [],
 
-    //make new "list" array with listNumber 1, 2, etc..
-    function listContainer(){
-        /*for (i = 0; i < lLength; i++) {
-            //listArray += "<div>" + "<button onclick='showTasks(listNumber)'>" + lists[i] + "</button>" + "<button>Delete</button>" + "</div>";
-            listArray += "hi";
-        }*/
-        //**********FOR LOOP IS NOT WORKING********
-        //listArray += "<div>" + lists[i] + "<button>Delete</button>" + "</div>";
-        //console.log("listContainer is being called");
-        document.getElementById("listContainer").innerHTML = listDisplay;
-    }
-    listContainer()
+
+    };
+
+    lists.push(newList);
+    listContainer();
 }
 
+function listContainer(){
+    let listDisplay = "";
+    //listDisplay += "<div>" + "<button onclick='showTasks(listNumber)'>" + lists + "</button>" + "<button>Delete</button>" + "</div>";
+    for (i = 0; i < lists.length; i++) {
+        listDisplay += "<div>" + "<p>" + lists[i].name + "<button onclick=deleteList()>Delete</button>" + "</p>"  +
+            "<input type='text' id='taskInput'>" +
+            "<button id='taskButton' onclick= newTask(" + i + ")>New Task</button>" + "</div>";
+    }
+    //listArray += "<div>" + lists[i] + "<button>Delete</button>" + "</div>";
+    //console.log("listContainer is being called");
+    document.getElementById("listContainer").innerHTML = listDisplay;
+}
 
+function newTask(listIndex){
+    let taskInput = $("#taskInput").val();
+    let newTask = {
+        task: taskInput,
+        completed: false
+
+    };
+    lists[listIndex].tasks.push(newTask);
+
+
+}
 
 
 
@@ -54,9 +64,6 @@ $(function taskButton(){
     });
 });
 
-function newTask(listNumber,taskInput){
-    //list(listNumber).push(taskInput);
-}
 
 
 
@@ -68,7 +75,10 @@ function newTask(listNumber,taskInput){
 
 
 
-function deleteList(){
+
+
+function deleteList(arrayNumber){
+    console.log("delete called");
 
 }
 
