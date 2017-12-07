@@ -1,4 +1,8 @@
 let lists = [];
+//Not sure how to use, but I want to implement:
+/*let JSON = JSON.stringify(lists);
+localStorage.setItem("lists", JSON);
+*/
 
 // PROOF of CONCEPT
 /*
@@ -56,8 +60,8 @@ function displayLists(){
     //console.log("displayLists is being called");
     let listDisplay = "";
     for (i = 0; i < lists.length; i++) {
-        listDisplay += "<div>" + "<p>" + "<button onclick='selectList(" + i + ")'>" + lists[i].name + "</button>" +
-            "<button onclick=deleteList()>Delete</button>" + "</p>";
+        listDisplay += "<div class='list'>" + "<p>" + "<button class='noBorder' onclick='selectList(" + i + ")'>" + lists[i].name + "</button>"
+            + "<button onclick=deleteList()>Delete</button>" + "</p>" + "<hr>";
     }
     //multiple divs with same id?^^
     document.getElementById("listContainer").innerHTML = listDisplay;
