@@ -1,4 +1,12 @@
 let lists = [];
+let selected = 0;
+//PROOF of CONCEPT
+/*let Number = 200;
+ showNumber(Number);
+function showNumber (Number){
+    console.log(Number)
+}
+*/
 //Not sure how to use, but I want to implement:
 /*let JSON = JSON.stringify(lists);
 localStorage.setItem("lists", JSON);
@@ -15,32 +23,9 @@ function hi(name){
 }
 */
 
-$(function listButton(){
-    //console.log("listButton called");
-    $("#addList").click(function list(){
-        newList($("#listInput").val());
-    });
-    $("#listInput").keyup(function listkeyup(event){
-        if(event.keyCode === 13){
-            newList($("#listInput").val());
-        }
-    });
-});
-
-$(function taskButton(){
-    //console.log("taskButton called");
-    $("#taskButton").click(function(){
-        newTask($("#taskInput").val(""));
-    });
-    $("#taskInput").keyup(function(event){
-        if(event.keyCode === 13){
-            newTask($("#taskInput").val(""));
-        }
-    });
-});
-
 function newList(listName){
     //console.log("newList is being called");
+    let i = 0;
     for(i = 0; i < lists.length; i++) {
         lists[i].selected = false;
     }
@@ -48,17 +33,18 @@ function newList(listName){
         name: listName,
         tasks: [],
         selected: true
-
-
     };
+    selected = i;
 
     lists.push(newList);
     displayLists();
+    displayTasks(selected);
 }
 
 function displayLists(){
     //console.log("displayLists is being called");
     let listDisplay = "";
+    let i = 0;
     for (i = 0; i < lists.length; i++) {
         listDisplay += "<div class='list'>" + "<p>" + "<button class='noBorder' onclick='selectList(" + i + ")'>" + lists[i].name + "</button>"
             + "<button onclick=deleteList()>Delete</button>" + "</p>" + "<hr>";
@@ -67,8 +53,21 @@ function displayLists(){
     document.getElementById("listContainer").innerHTML = listDisplay;
 
 }
+$(function listButton(){
+    //console.log("listButton called");
+    $("#addList").click(function list(){
+        newList($("#listInput").val());
+        document.getElementById("listInput").value = "";
+    });
+    $("#listInput").keyup(function listkeyup(event){
+        if(event.keyCode === 13){
+            newList($("#listInput").val());
+            document.getElementById("listInput").value = "";
+        }
 
-function newTask(listIndex){
+    });
+});
+function newTask(selected){
     //console.log("newTask is being called");
     let taskInput = $("#taskInput").val();
     let newTask = {
@@ -76,25 +75,46 @@ function newTask(listIndex){
         completed: false
 
     };
-    lists[listIndex].tasks.push(newTask);
+    lists[selected].tasks.push(newTask);
+    displayTasks(selected);
 
 }
 function displayTasks(listIndex){
     //console.log("displayTasks called");
     let taskDisplay = "";
+    let i = 0;
     for (i = 0; i < lists[listIndex].tasks.length; i++){
         taskDisplay += "<div>" + "<p>" + "<button onclick=markTask()>" + lists[listIndex].tasks[i].task + "</button>" +
             "<button onclick=deleteTask()>Delete</button>" + "</p>";
     }
     document.getElementById("listContent").innerHTML = taskDisplay + "<div class='taskButtonDiv'>" + "<input type='text' id='taskInput'>" +
-        "<button id='taskButton' onclick= newTask(" + i + ")>New Task</button>" + "</div>";
-}
+        "<button id='taskButton'" + " onclick= newTask(" + selected + ")" + ">New Task</button>" + "</div>";
+        /**/
 
+}
+$(function taskButton(){
+    //console.log("taskButton called");
+    $("#taskButton").click(function(){
+        console.log("taskButton click works");
+        //newTask(selected);
+    });
+    $("#taskInput").keyup(function(event){
+        if(event.keyCode === 13){
+            console.log("taskButton enter works");
+            //newTask(selected);
+        }
+    });
+});
 
 function selectList(listIndex){
-    console.log("selectList called");
-    console.log(listIndex);
+    for(i = 0; i < lists.length; i++) {
+        lists[i].selected = false;
+    }
+    //console.log("selectList called");
+    //console.log(listIndex);
     lists[listIndex].selected = true;
+    selected = listIndex;
+    //listNumber = listIndex;
     displayTasks(listIndex);
 }
 
