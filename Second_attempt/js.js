@@ -1,6 +1,18 @@
 let lists = [];
 
+// PROOF of CONCEPT
+/*
+whatIf("Kurtis");
+function whatIf(x){
+    hi(x);
+}
+function hi(name){
+    console.log("Hi " + name);
+}
+*/
+
 $(function listButton(){
+    //console.log("listButton called");
     $("#addList").click(function list(){
         newList($("#listInput").val());
     });
@@ -11,50 +23,9 @@ $(function listButton(){
     });
 });
 
-
-function newList(listName){
-    let newList = {
-        name: listName,
-        tasks: [],
-
-
-    };
-
-    lists.push(newList);
-    listContainer();
-}
-
-function listContainer(){
-    let listDisplay = "";
-    //listDisplay += "<div>" + "<button onclick='showTasks(listNumber)'>" + lists + "</button>" + "<button>Delete</button>" + "</div>";
-    for (i = 0; i < lists.length; i++) {
-        listDisplay += "<div>" + "<p>" + lists[i].name + "<button onclick=deleteList()>Delete</button>" + "</p>"  +
-            "<input type='text' id='taskInput'>" +
-            "<button id='taskButton' onclick= newTask(" + i + ")>New Task</button>" + "</div>";
-    }
-    //listArray += "<div>" + lists[i] + "<button>Delete</button>" + "</div>";
-    //console.log("listContainer is being called");
-    document.getElementById("listContainer").innerHTML = listDisplay;
-}
-
-function newTask(listIndex){
-    let taskInput = $("#taskInput").val();
-    let newTask = {
-        task: taskInput,
-        completed: false
-
-    };
-    lists[listIndex].tasks.push(newTask);
-
-
-}
-
-
-
-
-
 $(function taskButton(){
-    $("#addTask").click(function(){
+    //console.log("taskButton called");
+    $("#taskButton").click(function(){
         newTask($("#taskInput").val(""));
     });
     $("#taskInput").keyup(function(event){
@@ -64,61 +35,85 @@ $(function taskButton(){
     });
 });
 
+function newList(listName){
+    //console.log("newList is being called");
+    for(i = 0; i < lists.length; i++) {
+        lists[i].selected = false;
+    }
+    let newList = {
+        name: listName,
+        tasks: [],
+        selected: true
 
 
+    };
+
+    lists.push(newList);
+    displayLists();
+}
+
+function displayLists(){
+    //console.log("displayLists is being called");
+    let listDisplay = "";
+    for (i = 0; i < lists.length; i++) {
+        listDisplay += "<div>" + "<p>" + "<button onclick='selectList(" + i + ")'>" + lists[i].name + "</button>" +
+            "<button onclick=deleteList()>Delete</button>" + "</p>";
+    }
+    //multiple divs with same id?^^
+    document.getElementById("listContainer").innerHTML = listDisplay;
+
+}
+
+function newTask(listIndex){
+    //console.log("newTask is being called");
+    let taskInput = $("#taskInput").val();
+    let newTask = {
+        task: taskInput,
+        completed: false
+
+    };
+    lists[listIndex].tasks.push(newTask);
+
+}
+function displayTasks(listIndex){
+    //console.log("displayTasks called");
+    let taskDisplay = "";
+    for (i = 0; i < lists[listIndex].tasks.length; i++){
+        taskDisplay += "<div>" + "<p>" + "<button onclick=markTask()>" + lists[listIndex].tasks[i].task + "</button>" +
+            "<button onclick=deleteTask()>Delete</button>" + "</p>";
+    }
+    document.getElementById("listContent").innerHTML = taskDisplay + "<div class='taskButtonDiv'>" + "<input type='text' id='taskInput'>" +
+        "<button id='taskButton' onclick= newTask(" + i + ")>New Task</button>" + "</div>";
+}
 
 
+function selectList(listIndex){
+    console.log("selectList called");
+    console.log(listIndex);
+    lists[listIndex].selected = true;
+    displayTasks(listIndex);
+}
 
+function deleteList(listIndex){
+    console.log("deleteList called");
+    delete lists[listIndex];
+}
 
-
-
-
-
-
-
-
-function deleteList(arrayNumber){
-    console.log("delete called");
-
+function deleteTask(listIndex,taskIndex){
+    console.log("deleteTask called");
+    delete lists[listIndex].tasks[taskIndex];
 }
 
 function clearMarked(){
-
+    console.log("clearMarked called");
+    //loop through tasks array and delete any that have property: completed = true
 }
 
-function markTask(){
-
-}
-/*show menu/hide menu
-add list
-
-
-var list = {
-    add task
-    clear marked tasks
-    remove list
+function markTask(listIndex,taskIndex){
+    console.log("markTask called");
+    lists[listIndex].tasks[taskIndex].completed = true;
 }
 
-task{
-    can edit
-    mark as complete
-    remove task
-}
-
-
-variables = task number, list number, list
-task = "task" + tasknumber
-
-listname, click on list, hide all lists until one has a "show" variable
-*/
-
-
-
-
-//this will delete a list item or task
-function deleteitem(element) {
-    $(element).parent().remove();
-}
 function showLists(){
         let x = document.getElementById("listSection");
         if (x.style.display === "none") {
@@ -128,3 +123,6 @@ function showLists(){
         }
     }
 //shows lists on click, hides lists onclick
+
+
+

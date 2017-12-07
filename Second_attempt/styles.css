@@ -1,3 +1,8 @@
-
-
-/*# sourceMappingURL=styles.css.map */
+.body_content{
+    display:flex;
+}
+.body_div{
+    display:flex;
+    justify-content: space-between;
+    flex-direction: row-reverse;
+}
