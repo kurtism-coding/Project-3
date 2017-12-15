@@ -1,17 +1,41 @@
 
 .addLists{
-    padding-bottom: 30px;
+    padding: 10px;
+}
+.menuContainer{
+    padding: 10px;
 }
 .body_div{
     display: flex;
-    justify-content: space-between;
 }
 .noBorder{
     border: none;
     font-size: 150%;
     font-weight: 200;
 }
+.listContainer{
+    padding: 10px;
+}
 .body2{
+    padding-left: 30px;
+}
+.task{
     display:flex;
-    justify-content: space-between;
+    padding: 10px 0 30px 0;
+}
+.completeBtn{
+    margin: 10px;
+    border: None;
+}
+.deleteBtn{
+    margin: 10px;
+    border: None;
+}
+.taskName{
+    margin: 10px;
+    font-size: 150%;
+    font-weight: 200;
+}
+button:focus {
+    outline:0;
 }

@@ -32,10 +32,9 @@ function displayLists(){
     let listDisplay = "";
     let i = 0;
     for (i = 0; i < lists.length; i++) {
-        listDisplay += "<div class='list'>" + "<p>" + "<button onclick=deleteList(" + i + ")>Delete</button>" +
+        listDisplay += "<div class='list'>" + "<p>" + "<button class='deleteBtn' onclick=deleteList(" + i + ")><i class='fa fa-trash' aria-hidden='true'></i></button>" +
             "<button class='noBorder' onclick='selectList(" + i + ")'>" + lists[i].name + "</button>" + "</p>" + "<hr>";
     }
-    //multiple divs with same id?^^
     document.getElementById("listContainer").innerHTML = listDisplay;
 
 }
@@ -67,9 +66,10 @@ function selectList(listIndex){
     selected = listIndex;
     //listNumber = listIndex;
     displayTasks(listIndex);
+    showLists();
 }
 
-//works!
+//(((((IF THERE ARE NO MORE LISTS, DISPLAY TASKS DOES NOT RESET ITSELF TO DISPLAY NOTHING)))))
 function deleteList(listIndex){
     lists.splice(listIndex, 1);
     displayLists();
@@ -104,14 +104,18 @@ function displayTasks(listIndex){
     let taskDisplay = "";
     let i = 0;
     for (i = 0; i < lists[listIndex].tasks.length; i++){
-        taskDisplay += "<div>" + "<p>" + "<button onclick=markTask(" + selected + "," + i + ")></button>" + lists[listIndex].tasks[i].task +
-            "<button class='btn btn-danger' onclick=deleteTask(" + selected + "," + i + ")>Delete</button>" + "</p>";
+        taskDisplay += "<div class='task'><button class='completeBtn' onclick=markTask(" + selected + "," + i + ")>" +
+            "<i class='fa fa-square-o' aria-hidden='true'></i></button>" +
+            "<div class='taskName' contenteditable='True'>" + lists[listIndex].tasks[i].task + "</div>" +
+            "<button class='deleteBtn' onclick=deleteTask(" + selected + "," + i + ")><i class='fa fa-trash' aria-hidden='true'></i></button>" + "</div>";
     }
-    document.getElementById("tasks").innerHTML = taskDisplay + "<div class='taskButtonDiv'>" + "<input type='text' id='taskInput' onkeyup='newTaskOnKeyUp(event)'" + ">" +
+    document.getElementById("tasks").innerHTML = "<div class='tasksTitle'><h2>My Tasks</h2></div>" + taskDisplay +
+        "<div class='taskButtonDiv'>" + "<input type='text' id='taskInput' onkeyup='newTaskOnKeyUp(event)'" + ">" +
         "<button id='taskButton'" + " onclick= newTask(" + selected + ")" + ">New Task</button>" + "</div>" +
         "<button onclick='clearMarked(selected)'>Clear Marked Tasks</button>";
-
-
+//multiple divs with same id??^^
+//<i class='fa fa-square-o' aria-hidden='true'></i>
+    //<i class='fa fa-check-square' aria-hidden='true'></i>
 }
 
 //what is even happening with this
@@ -146,8 +150,10 @@ function clearMarked(selected){
 
 //works!
 function markTask(selected,taskIndex){
-    console.log("markTask called");
+    //console.log("markTask called");
     lists[selected].tasks[taskIndex].completed = true;
+
+
 }
 
 //works!
