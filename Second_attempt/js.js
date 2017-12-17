@@ -32,7 +32,8 @@ function displayLists(){
     let listDisplay = "";
     let i = 0;
     for (i = 0; i < lists.length; i++) {
-        listDisplay += "<div class='list'>" + "<p>" + "<button class='deleteBtn' onclick=deleteList(" + i + ")><i class='fa fa-trash' aria-hidden='true'></i></button>" +
+        listDisplay += "<div class='list' id='list" + i + "'><p><button class='deleteBtn' onclick=deleteList(" + i + ")>" +
+            "<i class='fa fa-trash' aria-hidden='true'></i></button>" +
             "<button class='noBorder' onclick='selectList(" + i + ")'>" + lists[i].name + "</button>" + "</p>" + "<hr>";
     }
     document.getElementById("listContainer").innerHTML = listDisplay;
@@ -66,17 +67,26 @@ function selectList(listIndex){
     selected = listIndex;
     //listNumber = listIndex;
     displayTasks(listIndex);
-    showLists();
 }
 
-//(((((IF THERE ARE NO MORE LISTS, DISPLAY TASKS DOES NOT RESET ITSELF TO DISPLAY NOTHING)))))
-function deleteList(listIndex){
+/*function deleteList(listIndex){
+    $("#list" + listIndex).fadeOut();
     lists.splice(listIndex, 1);
-    displayLists();
+    //displayLists();
     selected = 0;
     displayTasks(0);
-}
 
+
+}*/
+function deleteList(listIndex){
+    $("#list" + listIndex).fadeOut("slow", function(){
+        // whatever code you put in here will fire after the animation is done.
+        lists.splice(listIndex, 1);
+        displayLists();
+        selected = 0;
+        displayTasks(0);
+    });
+}
 function newTaskOnKeyUp(event) {
     if(event.keyCode === 13){
         newTask(selected);
@@ -103,30 +113,30 @@ function displayTasks(listIndex){
     //console.log("displayTasks called");
     let taskDisplay = "";
     let i = 0;
-    for (i = 0; i < lists[listIndex].tasks.length; i++){
-        taskDisplay += "<div class='task'><button class='completeBtn' onclick=markTask(" + selected + "," + i + ")>" +
-            "<i class='fa fa-square-o' aria-hidden='true'></i></button>" +
-            "<div class='taskName' contenteditable='True'>" + lists[listIndex].tasks[i].task + "</div>" +
-            "<button class='deleteBtn' onclick=deleteTask(" + selected + "," + i + ")><i class='fa fa-trash' aria-hidden='true'></i></button>" + "</div>";
-    }
-    document.getElementById("tasks").innerHTML = "<div class='tasksTitle'><h2>My Tasks</h2></div>" + taskDisplay +
-        "<div class='taskButtonDiv'>" + "<input type='text' id='taskInput' onkeyup='newTaskOnKeyUp(event)'" + ">" +
-        "<button id='taskButton'" + " onclick= newTask(" + selected + ")" + ">New Task</button>" + "</div>" +
-        "<button onclick='clearMarked(selected)'>Clear Marked Tasks</button>";
+    let icon = "";
+    if (lists.length === 0){
+        document.getElementById("tasks").innerHTML = ""}
+        else{
+            for (i = 0; i < lists[listIndex].tasks.length; i++){
+            if (lists[listIndex].tasks[i].completed === false){
+                icon = "<i class='fa fa-square-o' id='task" + i + "' aria-hidden='true'></i>";
+            }
+            else {
+                icon = "<i class='fa fa-check-square' id='task" + i + "' aria-hidden='true'></i>"
+            }
+            taskDisplay += "<div class='task'><button class='completeBtn' onclick=markTask(" + selected + "," + i + ")>" +
+                icon + "</button>" +
+                "<div class='taskName' contenteditable='True'>" + lists[listIndex].tasks[i].task + "</div>" +
+                "<button class='deleteBtn' onclick=deleteTask(" + selected + "," + i + ")><i class='fa fa-trash' aria-hidden='true'></i></button>" + "</div>";
+        }
+            document.getElementById("tasks").innerHTML = "<div class='tasksTitle'><h2>~~" + lists[selected].name + "~~</h2></div>" + taskDisplay +
+                "<div class='taskButtonDiv'>" + "<input type='text' id='taskInput' onkeyup='newTaskOnKeyUp(event)'" + ">" +
+                "<button id='taskButton'" + " onclick= newTask(" + selected + ")" + ">New Task</button>" + "</div>" +
+                "<button onclick='clearMarked(selected)'>Clear Marked Tasks</button>";}
 //multiple divs with same id??^^
 //<i class='fa fa-square-o' aria-hidden='true'></i>
     //<i class='fa fa-check-square' aria-hidden='true'></i>
 }
-
-//what is even happening with this
-// $(function taskButton(){
-//     $("body").keyup(function(event){
-//         if(event.keyCode === 13){
-//             console.log("taskButton enter works");
-//             //newTask(selected);
-//         }
-//     });
-// });
 
 //seems to work!
 function deleteTask(selected,taskIndex){
@@ -145,13 +155,23 @@ function clearMarked(selected){
             t--;
         }
     }
+    //ANIMATE??
     displayTasks(selected);
 }
 
 //works!
 function markTask(selected,taskIndex){
     //console.log("markTask called");
-    lists[selected].tasks[taskIndex].completed = true;
+    let y = lists[selected].tasks[taskIndex].completed;
+    if (y !== true){
+        y = true;
+    } else{
+        y = false;
+    }
+    lists[selected].tasks[taskIndex].completed = y;
+    let x = $("#task" + taskIndex);
+    x.toggleClass("fa fa-square-o");
+    x.toggleClass("fa fa-check-square");
 
 
 }
